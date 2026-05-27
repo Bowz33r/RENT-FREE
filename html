@@ -1,0 +1,191 @@
+<!-- MEMBER ACCESS SECTION -->
+
+<section class="payment" id="memberArea">
+  <h2>💗 Private Wellness Portal</h2>
+
+  <p style="margin-bottom:30px;">
+    After sending your Bitcoin payment, complete your private profile
+    to unlock your wellness resources and downloadable PDFs.
+  </p>
+
+  <div style="max-width:500px;margin:auto;display:flex;flex-direction:column;gap:18px;">
+
+    <input type="text" id="memberName" placeholder="Your Name">
+
+    <input type="email" id="memberEmail" placeholder="Your Email">
+
+    <input type="number" id="memberAge" placeholder="Your Age">
+
+    <input type="text" id="memberCountry" placeholder="Your Country">
+
+    <select id="memberTier" style="
+      padding:15px;
+      border-radius:16px;
+      border:1px solid #ffc1d6;
+      background:#fff8fb;
+      color:#6e4a5b;
+    ">
+      <option value="">Select Membership Tier</option>
+      <option value="Clarity Tier">$80 • Clarity Tier</option>
+      <option value="Insight Tier">$120 • Insight Tier</option>
+      <option value="Influence Tier">$140 • Influence Tier</option>
+    </select>
+
+    <button class="copy-btn" onclick="createProfile()">
+      Create Private Profile ✨
+    </button>
+  </div>
+</section>
+
+<!-- RESOURCE DASHBOARD -->
+
+<section
+  class="payment"
+  id="resourceDashboard"
+  style="display:none;"
+>
+  <h2>🌸 Your Wellness Library</h2>
+
+  <p id="welcomeText"></p>
+
+  <div style="
+    margin-top:40px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+  ">
+
+    <!-- PDF CARD -->
+
+    <div class="card">
+      <h2>Dating Clarity Guide</h2>
+
+      <p style="margin:18px 0;color:#6e4a5b;">
+        Learn emotional awareness, healthy communication,
+        and relationship confidence.
+      </p>
+
+      <a
+        href="pdfs/dating-guide.pdf"
+        target="_blank"
+        class="btn primary"
+        style="display:inline-block;"
+      >
+        Open PDF
+      </a>
+    </div>
+
+    <!-- PDF CARD -->
+
+    <div class="card">
+      <h2>Gaslighting Awareness</h2>
+
+      <p style="margin:18px 0;color:#6e4a5b;">
+        Understand manipulative behavior patterns and emotional boundaries.
+      </p>
+
+      <a
+        href="pdfs/gaslighting-awareness.pdf"
+        target="_blank"
+        class="btn primary"
+        style="display:inline-block;"
+      >
+        Open PDF
+      </a>
+    </div>
+
+    <!-- PDF CARD -->
+
+    <div class="card">
+      <h2>Soft Life Social Media</h2>
+
+      <p style="margin:18px 0;color:#6e4a5b;">
+        Build a peaceful online presence and wellness-inspired brand identity.
+      </p>
+
+      <a
+        href="pdfs/social-wellness.pdf"
+        target="_blank"
+        class="btn primary"
+        style="display:inline-block;"
+      >
+        Open PDF
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  #memberArea input {
+    padding: 15px;
+    border-radius: 16px;
+    border: 1px solid #ffc1d6;
+    background: #fff8fb;
+    outline: none;
+  }
+</style>
+
+<script>
+  function createProfile() {
+
+    const name = document.getElementById('memberName').value;
+    const email = document.getElementById('memberEmail').value;
+    const age = document.getElementById('memberAge').value;
+    const country = document.getElementById('memberCountry').value;
+    const tier = document.getElementById('memberTier').value;
+
+    if (
+      !name ||
+      !email ||
+      !age ||
+      !country ||
+      !tier
+    ) {
+      alert('Please complete all profile fields 🌸');
+      return;
+    }
+
+    localStorage.setItem('memberName', name);
+    localStorage.setItem('memberEmail', email);
+    localStorage.setItem('memberAge', age);
+    localStorage.setItem('memberCountry', country);
+    localStorage.setItem('memberTier', tier);
+
+    document.getElementById('resourceDashboard').style.display = 'block';
+
+    document.getElementById('welcomeText').innerHTML =
+      `
+      Welcome back, <strong>${name}</strong> ✨<br><br>
+      Tier: ${tier}<br>
+      Country: ${country}<br>
+      Age: ${age}
+      `;
+
+    alert('Private profile created successfully 💗');
+
+    document
+      .getElementById('resourceDashboard')
+      .scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // AUTO LOGIN IF PROFILE EXISTS
+
+  window.addEventListener('load', () => {
+
+    const savedName = localStorage.getItem('memberName');
+
+    if (savedName) {
+
+      document.getElementById('resourceDashboard').style.display = 'block';
+
+      document.getElementById('welcomeText').innerHTML =
+        `
+        Welcome back, <strong>${savedName}</strong> ✨<br><br>
+        Tier: ${localStorage.getItem('memberTier')}<br>
+        Country: ${localStorage.getItem('memberCountry')}<br>
+        Age: ${localStorage.getItem('memberAge')}
+        `;
+    }
+  });
+</script>
