@@ -1,36 +1,59 @@
-window.onload = function () {
+<script>
 
-  // SAFE LOCAL STORAGE CHECK
-  try {
+function createProfile() {
 
-    const emailPermission = localStorage.getItem('emailPermission');
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const age = document.getElementById('age').value;
+  const country = document.getElementById('country').value;
+  const tier = document.getElementById('tier').value;
 
-    // EMAIL POPUP
-    if (!emailPermission) {
-      document.getElementById('emailPopup').style.display = 'flex';
-    } else {
-      showCookiePopup();
-    }
-
-    // MEMBER AUTO LOGIN
-    const savedName = localStorage.getItem('memberName');
-
-    if (savedName) {
-
-      document.getElementById('resourceDashboard').style.display = 'block';
-
-      document.getElementById('welcomeText').innerHTML = `
-        Welcome back, <strong>${savedName}</strong> ✨<br><br>
-        Tier: ${localStorage.getItem('memberTier')}<br>
-        Country: ${localStorage.getItem('memberCountry')}<br>
-        Age: ${localStorage.getItem('memberAge')}
-      `;
-    }
-
-  } catch(error) {
-    console.log('Local storage unavailable');
+  if (!name || !email || !age || !country || !tier) {
+    alert("Please complete all fields 🌸");
+    return;
   }
 
-};
+  // SAVE LOCALLY
+  localStorage.setItem("name", name);
+  localStorage.setItem("email", email);
+  localStorage.setItem("age", age);
+  localStorage.setItem("country", country);
+  localStorage.setItem("tier", tier);
+
+  // EMAIL SEND
+  emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+    name: name,
+    email: email,
+    age: age,
+    country: country,
+    tier: tier
+  })
+
+  .then(function(response) {
+
+    document.getElementById("dashboard").style.display = "block";
+
+    document.getElementById("welcome").innerHTML =
+      `
+      Welcome <strong>${name}</strong> ✨<br><br>
+      Tier: ${tier}<br>
+      Country: ${country}
+      `;
+
+    alert("🌸 Profile submitted successfully.");
+
+  })
+
+  .catch(function(error) {
+
+    alert("Email failed to send.");
+
+    console.log(error);
+
+  });
+
+}
+
+</script>
 
    
